@@ -1,21 +1,45 @@
-import React from 'react'
-import { Container, Col, Row } from "react-bootstrap";
-import Register from './Register';
-import Login from './Login';
+// App.js
+import React from 'react';
+import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
+import { Container, Col, Row } from 'react-bootstrap';
+import Account from './Account';
+import AuthComponent from './AuthComponent';
+import FreeComponent from './FreeComponent';
+import './App.css';
+import ProtectedRoutes from './ProtectedRoute';
 
 const App = () => {
   return (
-    <Container>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <Register/>
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <Login/>
-        </Col>
-      </Row>
-    </Container>
-  )
-}
+    <BrowserRouter>
+      <Container>
+        <Row>
+          <Col className="text-center">
+            <h1>React Authentication Tutorial</h1>
 
-export default App
+            <section id="navigation">
+              <Link to="/">Home</Link>
+              <Link to="/free">Free Component</Link>
+              <Link to="/auth">Auth Component</Link>
+            </section>
+          </Col>
+        </Row>
+
+        <Routes>
+          <Route path="/" exact element={<Account />} />
+          <Route path="/free" exact element={<FreeComponent />} />
+          <Route
+            path="/auth"
+            element={
+              <ProtectedRoutes
+                redirectTo="/"
+                component={AuthComponent}
+              />
+            }
+          />
+        </Routes>
+      </Container>
+    </BrowserRouter>
+  );
+};
+
+export default App;
